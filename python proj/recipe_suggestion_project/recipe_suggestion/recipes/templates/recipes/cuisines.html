@@ -1,0 +1,371 @@
+<!-- Save this as cuisines.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cuisines | Recipe Finder</title>
+  <link rel="stylesheet" href="{% static 'styles.css' %}" />
+
+  <style>
+    .recipe-card {
+      opacity: 1;
+      transition: opacity 0.4s ease-in-out;
+      border: 1px solid #00ebb4;
+      padding: 1rem;
+      border-radius: 10px;
+      background-color: #f6f5f5;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 1rem;
+    }
+    .recipe-card.hide {
+      opacity: 0;
+      pointer-events: none;
+      height: 0;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    .search-section {
+      text-align: center;
+      margin: 1rem auto;
+    }
+    select {
+      padding: 8px 12px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    header {
+      background-color: #00ebb4;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .recipe-steps {
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+    }
+    .recipes-grid {
+      max-width: 900px;
+      margin: auto;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🌍 World Cuisines</h1>
+    <p>Explore delicious recipes by country</p>
+    <a href="{% url 'home' %}" style="color: white; text-decoration: underline;">← Back to Home</a>
+  </header>
+
+  <section class="search-section">
+    <label for="cuisineSelect"><strong>Filter by Country:</strong></label>
+    <select id="cuisineSelect" onchange="filterCuisine()">
+      <option value="all">All</option>
+      <option value="italian">Italian 🇮🇹</option>
+      <option value="indian">Indian 🇮🇳</option>
+      <option value="japanese">Japanese 🇯🇵</option>
+      <option value="mexican">Mexican 🇲🇽</option>
+      <option value="chinese">Chinese 🇨🇳</option>
+      <option value="french">French 🇫🇷</option>
+    </select>
+  </section>
+  <div id="offline-recipes">
+  <section id="cuisineResults" class="recipes-grid">
+    <div class="recipe-card italian">
+      <h3>🇮🇹 Spaghetti Carbonara</h3>
+      <p><strong>Cuisine:</strong> Italian</p>
+      <p><strong>Ingredients:</strong> Spaghetti, Eggs, Parmesan Cheese, Bacon, Black Pepper</p>
+      <div class="recipe-steps">
+        <strong>Steps:</strong>
+        <ol>
+          <li>Boil the spaghetti until al dente.</li>
+          <li>Fry bacon until crisp.</li>
+          <li>Whisk eggs and parmesan together in a bowl.</li>
+          <li>Drain spaghetti and mix with bacon and egg mixture.</li>
+          <li>Serve hot with black pepper sprinkled on top.</li>
+        </ol>
+      </div>
+      <button onclick="shareRecipe()">Share Recipe</button>
+
+  <!-- Share Options (Hidden initially) -->
+  <div id="share-options" style="display:none;">
+    <button onclick="window.open('https://wa.me/?text=Check out this recipe: 🇮🇹 Spaghetti Carbonara - Spaghetti, Eggs, Parmesan Cheese, Bacon, Black Pepper. Steps: Boil spaghetti, Fry bacon, Mix eggs and parmesan. Enjoy!', '_blank')">Share on WhatsApp</button>
+    <button onclick="window.open('mailto:?subject=Check out this recipe: 🇮🇹 Spaghetti Carbonara&body=Here is a delicious recipe: Spaghetti, Eggs, Parmesan Cheese, Bacon, Black Pepper. Steps: Boil spaghetti, Fry bacon, Mix eggs and parmesan. Enjoy!', '_blank')">Share via Email</button>
+  </div>
+    </div>
+
+    <div class="recipe-card indian">
+      <h3>🇮🇳 Butter Chicken</h3>
+      <p><strong>Cuisine:</strong> Indian</p>
+      <p><strong>Ingredients:</strong> Chicken, Butter, Tomato Puree, Cream, Garam Masala, Garlic</p>
+      <div class="recipe-steps">
+        <strong>Steps:</strong>
+        <ol>
+          <li>Marinate chicken with yogurt and spices for 1 hour.</li>
+          <li>Cook chicken until golden and set aside.</li>
+          <li>Make a tomato-based sauce with butter, cream, and spices.</li>
+          <li>Add chicken to sauce and simmer until cooked through.</li>
+          <li>Garnish with coriander and serve with naan or rice.</li>
+        </ol>
+      </div>
+      <button onclick="shareRecipe()">Share Recipe</button>
+
+  <!-- Share Options (Hidden initially) -->
+  <div id="share-options" style="display:none;">
+    <button onclick="window.open('https://wa.me/?text=Check out this recipe: 🇮🇹 Spaghetti Carbonara - Spaghetti, Eggs, Parmesan Cheese, Bacon, Black Pepper. Steps: Boil spaghetti, Fry bacon, Mix eggs and parmesan. Enjoy!', '_blank')">Share on WhatsApp</button>
+    <button onclick="window.open('mailto:?subject=Check out this recipe: 🇮🇹 Spaghetti Carbonara&body=Here is a delicious recipe: Spaghetti, Eggs, Parmesan Cheese, Bacon, Black Pepper. Steps: Boil spaghetti, Fry bacon, Mix eggs and parmesan. Enjoy!', '_blank')">Share via Email</button>
+  </div>
+    </div>
+    </div>
+
+    <div class="recipe-card japanese">
+      <h3>🇯🇵 Sushi</h3>
+      <p><strong>Cuisine:</strong> Japanese</p>
+      <p><strong>Ingredients:</strong> Sushi Rice, Rice Vinegar, Seaweed Sheets, Raw Fish, Vegetables</p>
+      <div class="recipe-steps">
+        <strong>Steps:</strong>
+        <ol>
+          <li>Cook and season sushi rice with vinegar, sugar, and salt.</li>
+          <li>Lay seaweed on bamboo mat and spread rice over it.</li>
+          <li>Add fillings like fish and vegetables.</li>
+          <li>Roll tightly and slice into bite-sized pieces.</li>
+          <li>Serve with soy sauce, wasabi, and pickled ginger.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="recipe-card mexican">
+      <h3>🇲🇽 Tacos</h3>
+      <p><strong>Cuisine:</strong> Mexican</p>
+      <p><strong>Ingredients:</strong> Tortilla, Ground Meat, Lettuce, Cheese, Tomato, Salsa</p>
+      <div class="recipe-steps">
+        <strong>Steps:</strong>
+        <ol>
+          <li>Cook ground meat with taco seasoning.</li>
+          <li>Warm the tortillas on a pan.</li>
+          <li>Fill with meat, chopped veggies, and shredded cheese.</li>
+          <li>Top with salsa and sour cream if desired.</li>
+          <li>Serve immediately while warm.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="recipe-card chinese">
+      <h3>🇨🇳 Kung Pao Chicken</h3>
+      <p><strong>Cuisine:</strong> Chinese</p>
+      <p><strong>Ingredients:</strong> Chicken, Peanuts, Dried Red Chilies, Garlic, Soy Sauce, Vinegar</p>
+      <div class="recipe-steps">
+        <strong>Steps:</strong>
+        <ol>
+          <li>Marinate chicken with soy sauce and cornstarch.</li>
+          <li>Stir-fry garlic and chilies, then add chicken.</li>
+          <li>Add peanuts and sauce mixture.</li>
+          <li>Cook until chicken is done and sauce thickens.</li>
+          <li>Serve hot with steamed rice.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="recipe-card french">
+      <h3>🇫🇷 Ratatouille</h3>
+      <p><strong>Cuisine:</strong> French</p>
+      <p><strong>Ingredients:</strong> Eggplant, Zucchini, Tomato, Bell Pepper, Onion, Garlic, Herbs</p>
+      <div class="recipe-steps">
+        <strong>Steps:</strong>
+        <ol>
+          <li>Chop all vegetables into even slices.</li>
+          <li>Sauté garlic and onion in olive oil.</li>
+          <li>Add other vegetables and season with herbs.</li>
+          <li>Simmer until soft and flavors blend.</li>
+          <li>Serve hot as a main or side dish.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Online Recipes -->
+<div id="online-recipes" style="display: none;">
+  <h2>Online Recipes</h2>
+  <div id="api-recipes"></div>
+</div>
+
+
+  
+  <!--<script>
+    function filterCuisine() {
+      const selected = document.getElementById("cuisineSelect").value;
+      const recipes = document.querySelectorAll(".recipe-card");
+      recipes.forEach(recipe => {
+        const matches = recipe.classList.contains(selected) || selected === "all";
+        if (matches) {
+          recipe.classList.remove("hide");
+        } else {
+          recipe.classList.add("hide");
+        }
+      });
+    }
+
+    function applyModeFromStorage() {
+    const mode = localStorage.getItem("recipe_mode");
+    const offlineContainer = document.getElementById("offline-recipes");
+    const onlineContainer = document.getElementById("online-recipes");
+
+    if (mode === "online") {
+      offlineContainer.style.display = "none";
+      onlineContainer.style.display = "block";
+
+      fetch("https://www.themealdb.com/api/json/v1/1/search.php?f=a")
+        .then(response => response.json())
+        .then(data => {
+          const apiRecipes = document.getElementById("api-recipes");
+          if (!data.meals) {
+               apiRecipes.innerHTML = "<p>No recipes found online.</p>";
+               return;
+          }
+
+          if (!apiRecipes) return;
+          apiRecipes.innerHTML = "";
+  
+          data.meals.forEach(meal => {
+            const div = document.createElement("div");
+            div.classList.add("recipe-card");
+            div.innerHTML = `<strong>${meal.strMeal}</strong>`;
+            apiRecipes.appendChild(div);
+          });
+        });
+    } else {
+      onlineContainer.style.display = "none";
+      offlineContainer.style.display = "block";
+    }
+  }
+
+  window.addEventListener("load", applyModeFromStorage);
+
+
+  </script>-->
+  <script>
+     function shareRecipe() {
+    // Get the current recipe URL and recipe name (you can adjust this part as necessary)
+    const recipeName = "Spaghetti Carbonara"; // Recipe name hardcoded here, but can be dynamic if necessary
+    const ingredients = "Spaghetti, Eggs, Parmesan Cheese, Bacon, Black Pepper";
+    const steps = "Boil spaghetti, Fry bacon, Mix eggs and parmesan. Enjoy!";
+    
+    // Create the share message
+    const message = `Check out this recipe: 🇮🇹 ${recipeName}\nIngredients: ${ingredients}\nSteps: ${steps}`;
+    
+    // WhatsApp Share URL
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    
+    // Email Share URL
+    const emailUrl = `mailto:?subject=Check out this recipe: ${encodeURIComponent(recipeName)}&body=${encodeURIComponent(message)}`;
+    
+    // Show the share options
+    document.getElementById('share-options').style.display = 'block'; // Display the buttons
+  }
+    function filterCuisine() {
+      const selected = document.getElementById("cuisineSelect").value;
+      const mode = localStorage.getItem("recipe_mode");
+  
+      if (mode === "online") {
+        const apiRecipes = document.getElementById("api-recipes");
+        apiRecipes.innerHTML = "<p>Loading recipes...</p>";
+  
+        let apiUrl = "https://www.themealdb.com/api/json/v1/1/search.php?f=a"; // default
+        if (selected !== "all") {
+          const capitalized = selected.charAt(0).toUpperCase() + selected.slice(1);
+          apiUrl = `https://www.themealdb.com/api/json/v1/1/filter.php?a=${capitalized}`;
+        }
+  
+        fetch(apiUrl)
+          .then(response => response.json())
+          .then(data => {
+            apiRecipes.innerHTML = "";
+            if (!data.meals) {
+              apiRecipes.innerHTML = "<p>No recipes found for this cuisine.</p>";
+              return;
+            }
+  
+            data.meals.forEach(meal => {
+              const div = document.createElement("div");
+              div.classList.add("recipe-card");
+              div.innerHTML = `
+                <h3>${meal.strMeal}</h3>
+                <img src="${meal.strMealThumb}" alt="${meal.strMeal}" width="200"/>
+              `;
+              apiRecipes.appendChild(div);
+            });
+          });
+      } else {
+        // Offline filtering (existing logic)
+        const recipes = document.querySelectorAll(".recipe-card");
+        recipes.forEach(recipe => {
+          const matches = recipe.classList.contains(selected) || selected === "all";
+          if (matches) {
+            recipe.classList.remove("hide");
+          } else {
+            recipe.classList.add("hide");
+          }
+        });
+      }
+    }
+  
+    function applyModeFromStorage() {
+  const mode = localStorage.getItem("recipe_mode");
+  const offlineContainer = document.getElementById("offline-recipes");
+  const onlineContainer = document.getElementById("online-recipes");
+
+  if (mode === "online") {
+    offlineContainer.style.display = "none";
+    onlineContainer.style.display = "block";
+
+    fetch("https://www.themealdb.com/api/json/v1/1/search.php?f=a")
+      .then(response => response.json())
+      .then(data => {
+        const apiRecipes = document.getElementById("api-recipes");
+        if (!apiRecipes) return;
+        apiRecipes.innerHTML = "";
+
+        data.meals.forEach(meal => {
+          const div = document.createElement("div");
+          div.classList.add("recipe-card");
+
+          let ingredients = "";
+          for (let i = 1; i <= 20; i++) {
+            const ingredient = meal["strIngredient" + i];
+            const measure = meal["strMeasure" + i];
+            if (ingredient && ingredient.trim() !== "") {
+              ingredients += `<li>${ingredient} - ${measure}</li>`;
+            }
+          }
+
+          div.innerHTML = `
+            <h3>${meal.strMeal}</h3>
+            <img src="${meal.strMealThumb}" alt="${meal.strMeal}" width="250">
+            <h4>Ingredients:</h4>
+            <ul>${ingredients}</ul>
+            <h4>Instructions:</h4>
+            <p>${meal.strInstructions}</p>
+            ${meal.strYoutube ? `<a href="${meal.strYoutube}" target="_blank">Watch Video</a>` : ""}
+          `;
+
+          apiRecipes.appendChild(div);
+        });
+      });
+  } else {
+    onlineContainer.style.display = "none";
+    offlineContainer.style.display = "block";
+  }
+}
+
+  
+    window.addEventListener("load", applyModeFromStorage);
+  </script>
+  
+
+</body>
+</html>

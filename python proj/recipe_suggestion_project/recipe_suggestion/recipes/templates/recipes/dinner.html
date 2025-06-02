@@ -1,0 +1,194 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dinner | Recipe Finder</title>
+  <link rel="stylesheet" href="{% static 'styles.css' %}" />
+
+  <style>
+    .recipe-card {
+      opacity: 1;
+      transition: opacity 0.4s ease-in-out;
+      padding: 15px;
+      border: 1px solid #12ab08;
+      margin: 15px 0;
+      border-radius: 8px;
+      box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    header {
+      background-color: #00ebb4;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    .recipe-card.hide {
+      opacity: 0;
+      pointer-events: none;
+      height: 0;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .search-section {
+      text-align: center;
+      margin: 1rem auto;
+    }
+
+    select {
+      padding: 8px 12px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .recipe-card ul, .recipe-card ol {
+      padding-left: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🍽️ Dinner Recipes</h1>
+    <p>Wind down with delicious evening meals</p>
+    <a href="{% url 'home' %}" style="color: white; text-decoration: underline;">← Back to Home</a>
+  </header>
+
+  <section class="search-section">
+    <label for="dinnerFilter"><strong>Filter by Type:</strong></label>
+    <select id="dinnerFilter" onchange="filterDinner()">
+      <option value="all">All</option>
+      <option value="light">Light</option>
+      <option value="hearty">Hearty</option>
+      <option value="lowcal">Low-Calorie</option>
+      <option value="comfort">Comfort Food</option>
+    </select>
+  </section>
+
+  <section class="recipes-grid" id="dinnerResults">
+    <div class="recipe-card light lowcal">
+      <h3>🥗 Quinoa Veggie Bowl</h3>
+      <p><strong>Type:</strong> Light, Low-Calorie</p>
+      <p><strong>Ingredients:</strong></p>
+      <ul>
+        <li>1 cup cooked quinoa</li>
+        <li>1 cup steamed broccoli</li>
+        <li>1/2 cup chopped bell peppers</li>
+        <li>1/4 cup shredded carrots</li>
+        <li>1 tablespoon lemon juice</li>
+        <li>1 tablespoon olive oil</li>
+        <li>Salt and pepper to taste</li>
+      </ul>
+      <p><strong>Instructions:</strong></p>
+      <ol>
+        <li>In a bowl, mix quinoa, broccoli, bell peppers, and carrots.</li>
+        <li>Drizzle with olive oil and lemon juice.</li>
+        <li>Season with salt and pepper.</li>
+        <li>Toss everything together and serve warm or chilled.</li>
+      </ol>
+    </div>
+
+    <div class="recipe-card hearty comfort">
+      <h3>🍝 Spaghetti Bolognese</h3>
+      <p><strong>Type:</strong> Hearty, Comfort Food</p>
+      <p><strong>Ingredients:</strong></p>
+      <ul>
+        <li>200g spaghetti</li>
+        <li>200g ground beef</li>
+        <li>1/2 cup chopped onion</li>
+        <li>2 garlic cloves, minced</li>
+        <li>1 cup tomato puree</li>
+        <li>1/4 cup grated cheese</li>
+        <li>Olive oil, salt, pepper</li>
+      </ul>
+      <p><strong>Instructions:</strong></p>
+      <ol>
+        <li>Boil spaghetti as per packet instructions and drain.</li>
+        <li>In a pan, heat oil, sauté onion and garlic until fragrant.</li>
+        <li>Add beef and cook until browned.</li>
+        <li>Stir in tomato puree, cook for 10 minutes.</li>
+        <li>Mix sauce with spaghetti and top with grated cheese.</li>
+      </ol>
+    </div>
+
+    <div class="recipe-card lowcal light">
+      <h3>🥒 Cucumber Gazpacho</h3>
+      <p><strong>Type:</strong> Light, Low-Calorie</p>
+      <p><strong>Ingredients:</strong></p>
+      <ul>
+        <li>2 cucumbers, peeled and chopped</li>
+        <li>1/2 cup plain yogurt</li>
+        <li>1 garlic clove</li>
+        <li>1 tablespoon lemon juice</li>
+        <li>Fresh mint or dill (optional)</li>
+        <li>Salt and pepper to taste</li>
+      </ul>
+      <p><strong>Instructions:</strong></p>
+      <ol>
+        <li>Blend all ingredients until smooth.</li>
+        <li>Chill in the fridge for 1 hour.</li>
+        <li>Garnish with herbs and serve cold.</li>
+      </ol>
+    </div>
+
+    <div class="recipe-card hearty">
+      <h3>🍛 Chicken Tikka Masala</h3>
+      <p><strong>Type:</strong> Hearty</p>
+      <p><strong>Ingredients:</strong></p>
+      <ul>
+        <li>250g boneless chicken</li>
+        <li>1/2 cup yogurt</li>
+        <li>1 tbsp tikka masala paste</li>
+        <li>1/2 cup cream</li>
+        <li>1/2 onion, chopped</li>
+        <li>2 tbsp tomato paste</li>
+        <li>Garam masala, chili powder</li>
+      </ul>
+      <p><strong>Instructions:</strong></p>
+      <ol>
+        <li>Marinate chicken with yogurt and tikka paste for 1 hour.</li>
+        <li>Grill or pan-fry until golden and set aside.</li>
+        <li>In a pan, sauté onion, add spices and tomato paste.</li>
+        <li>Add cream and bring to a simmer.</li>
+        <li>Add grilled chicken and cook for 10 minutes.</li>
+      </ol>
+    </div>
+
+    <div class="recipe-card comfort">
+      <h3>🍲 Mac & Cheese</h3>
+      <p><strong>Type:</strong> Comfort Food</p>
+      <p><strong>Ingredients:</strong></p>
+      <ul>
+        <li>1 cup elbow pasta</li>
+        <li>1 cup shredded cheddar cheese</li>
+        <li>1 tablespoon butter</li>
+        <li>1 tablespoon flour</li>
+        <li>1 cup milk</li>
+        <li>Salt and pepper to taste</li>
+      </ul>
+      <p><strong>Instructions:</strong></p>
+      <ol>
+        <li>Cook pasta and drain.</li>
+        <li>In a saucepan, melt butter, whisk in flour to form a roux.</li>
+        <li>Slowly add milk, stirring constantly until thickened.</li>
+        <li>Stir in cheese, then mix with pasta.</li>
+        <li>Season and serve hot.</li>
+      </ol>
+    </div>
+  </section>
+
+  <script>
+    function filterDinner() {
+      const selected = document.getElementById("dinnerFilter").value;
+      const recipes = document.querySelectorAll(".recipe-card");
+
+      recipes.forEach(recipe => {
+        const matches = recipe.classList.contains(selected) || selected === "all";
+        recipe.classList.toggle("hide", !matches);
+      });
+    }
+  </script>
+</body>
+</html>
